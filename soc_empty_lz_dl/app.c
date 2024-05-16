@@ -32,6 +32,7 @@
 #include "sl_bluetooth.h"
 #include "app.h"
 #include "app_log.h"
+#include "sl_sensor_rht.h"
 
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
@@ -69,6 +70,8 @@ SL_WEAK void app_process_action(void)
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
   sl_status_t sc;
+  //uint32_t *rh;
+  //uint32_t *t;
 
   switch (SL_BT_MSG_ID(evt->header)) {
     // -------------------------------
@@ -108,6 +111,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // This event indicates that a connection was closed.
     case sl_bt_evt_connection_closed_id:
       app_log_info("%s: connection_closed!\n",__FUNCTION__);
+
       // Generate data for advertising
       sc = sl_bt_legacy_advertiser_generate_data(advertising_set_handle,
                                                  sl_bt_advertiser_general_discoverable);
@@ -122,6 +126,12 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     ///////////////////////////////////////////////////////////////////////////
     // Add additional event handlers here as your application requires!      //
     ///////////////////////////////////////////////////////////////////////////
+    case sl_bt_evt_gatt_server_user_read_request_id:
+      /*sl_sensor_rht_init();
+      sc=sl_sensor_rht_get(&rh,&t);
+      app_log_info("%s:temperature",&t);
+      sl_sensor_rht_deinit();*/
+      app_log_info("%s: read\n",__FUNCTION__);
 
     // -------------------------------
     // Default event handler.
