@@ -209,6 +209,7 @@
 									<listOptionValue builtIn="false" value="SL_RAIL_LIB_MULTIPROTOCOL_SUPPORT=0"/>
 									<listOptionValue builtIn="false" value="SL_RAIL_UTIL_PA_CONFIG_HEADER=&lt;sl_rail_util_pa_config.h&gt;"/>
 								</option>
+								<option id="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.assembler.warnings.toerrros.645743794" superClass="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.assembler.warnings.toerrros" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="org.eclipse.cdt.core.asmSource.436472856" superClass="org.eclipse.cdt.core.asmSource"/>
 							</tool>
 							<tool id="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.base.707039084" name="GNU ARM C Linker" superClass="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.base">
@@ -283,5 +284,10 @@
 		<scannerConfigBuildInfo instanceId="com.silabs.ss.framework.project.toolchain.core.default#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt:12.2.1.20221205;com.silabs.ss.framework.project.toolchain.core.default#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt:12.2.1.20221205.;com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.base.1773515099;com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.input.795715441">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="GNU ARM v12.2.1 - Default">
+			<resource resourceType="PROJECT" workspacePath="/soc_empty_lz_dl"/>
+		</configuration>
 	</storageModule>
 </cproject>
