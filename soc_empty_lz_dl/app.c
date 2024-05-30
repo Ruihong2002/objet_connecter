@@ -71,8 +71,8 @@ SL_WEAK void app_process_action(void)
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
   sl_status_t sc;
-//  uint32_t *rh;
-//  uint32_t *t;
+  uint32_t *rh;
+  uint32_t *t;
 
   switch (SL_BT_MSG_ID(evt->header)) {
     // -------------------------------
@@ -127,13 +127,15 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     ///////////////////////////////////////////////////////////////////////////
     // Add additional event handlers here as your application requires!      //
     ///////////////////////////////////////////////////////////////////////////
-//    case sl_bt_evt_gatt_server_user_read_request_id:
-//      //app_log_info("%l:temperature\n",conversion_Temperature());
-//      app_log_info("%s: read\n", __FUNCTION__);
-//      break;
     case sl_bt_evt_gatt_server_user_read_request_id:
-          app_log_info("%s : temperature\n", __FUNCTION__);
-          break;
+      //app_log_info("%l:temperature\n",__FUNCTION__,getTemperature());
+
+      //sl_sensor_rht_init();
+      //sc=sl_sensor_rht_get(&rh,&t);
+      app_log_info("temperature:%d°C\n",__FUNCTION__,getTemperature()/1000);
+      //sl_sensor_rht_deinit();
+      break;
+
     // -------------------------------
     // Default event handler.
     default:

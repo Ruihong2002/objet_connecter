@@ -80,7 +80,7 @@
 
     <!--Temperature-->
     <characteristic const="false" id="temperature" name="Temperature" sourceId="org.bluetooth.characteristic.temperature" uuid="2A6E">
-      <value length="2" type="hex" variable_length="false"/>
+      <value length="2" type="user" variable_length="false"/>
       <properties>
         <read authenticated="false" bonded="false" encrypted="false"/>
       </properties>
