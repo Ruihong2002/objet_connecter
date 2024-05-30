@@ -312,4 +312,5 @@
 			<resource resourceType="PROJECT" workspacePath="/soc_empty_lz_dl"/>
 		</configuration>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>

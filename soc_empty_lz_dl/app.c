@@ -70,8 +70,8 @@ SL_WEAK void app_process_action(void)
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
   sl_status_t sc;
-  //uint32_t *rh;
-  //uint32_t *t;
+  uint32_t *rh;
+  uint32_t *t;
 
   switch (SL_BT_MSG_ID(evt->header)) {
     // -------------------------------
@@ -127,10 +127,10 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // Add additional event handlers here as your application requires!      //
     ///////////////////////////////////////////////////////////////////////////
     case sl_bt_evt_gatt_server_user_read_request_id:
-      /*sl_sensor_rht_init();
+      sl_sensor_rht_init();
       sc=sl_sensor_rht_get(&rh,&t);
       app_log_info("%s:temperature",&t);
-      sl_sensor_rht_deinit();*/
+      sl_sensor_rht_deinit();
       app_log_info("%s: read\n",__FUNCTION__);
 
     // -------------------------------
