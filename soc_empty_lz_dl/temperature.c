@@ -8,5 +8,5 @@ int getTemperature(){
   sl_sensor_rht_init();
   sl_sensor_rht_get(&rh,&t);
   sl_sensor_rht_deinit();
-  return ((int)(t*0.01));
+  return t/10;
 }

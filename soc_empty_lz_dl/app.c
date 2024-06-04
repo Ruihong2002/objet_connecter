@@ -34,6 +34,8 @@
 #include "app_log.h"
 #include "sl_sensor_rht.h"
 #include "temperature.h"
+#include "stdint.h"
+#include "gatt_db.h"
 
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
@@ -73,6 +75,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
   sl_status_t sc;
   uint32_t *rh;
   uint32_t *t;
+  uint16_t* sent_lent;
 
   switch (SL_BT_MSG_ID(evt->header)) {
     // -------------------------------
@@ -128,13 +131,23 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // Add additional event handlers here as your application requires!      //
     ///////////////////////////////////////////////////////////////////////////
     case sl_bt_evt_gatt_server_user_read_request_id:
-      //app_log_info("%l:temperature\n",__FUNCTION__,getTemperature());
+      app_log_info("test_read\n",__FUNCTION__);
+      switch (evt->data.evt_gatt_server_user_read_request.characteristic) {
+        case gattdb_temperature:
+          int temperature=getTemperature();
+          app_log_info("temperature:%dC\n",temperature);
+          sc=sl_bt_gatt_server_send_user_read_response(evt->data.handle,gattdb_temperature,0,sizeof(temperature),&temperature,&sent_lent);
+          app_assert_status(sc);
+          break;
+       default:
+          break;
+      }
+      case sl_bt_evt_gatt_server_characteristic_status_id:
+       app_log_info("test_notify\n",__FUNCTION__);
+       break;
 
-      //sl_sensor_rht_init();
-      //sc=sl_sensor_rht_get(&rh,&t);
-      app_log_info("temperature:%d°C\n",__FUNCTION__,getTemperature()/1000);
-      //sl_sensor_rht_deinit();
-      break;
+
+
 
     // -------------------------------
     // Default event handler.
