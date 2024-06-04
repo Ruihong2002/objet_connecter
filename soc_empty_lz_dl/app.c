@@ -141,9 +141,20 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
           break;
        default:
           break;
-      }
+      }//end switch
+
       case sl_bt_evt_gatt_server_characteristic_status_id:
        app_log_info("test_notify\n",__FUNCTION__);
+       switch (evt->data.evt_gatt_server_characteristic_status.characteristic){
+         case gattdb_temperature:
+           int temperature=getTemperature();
+           app_log_info("temperature_notify:C coucou!\n");
+           //sc=sl_bt_gatt_server_send_user_read_response(evt->data.handle,gattdb_temperature,0,sizeof(temperature),&temperature,&sent_lent);
+           //app_assert_status(sc);
+           break;
+         default:
+           break;
+       }//end switch
        break;
 
 
