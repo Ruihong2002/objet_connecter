@@ -36,7 +36,11 @@
 #include "temperature.h"
 #include "stdint.h"
 #include "gatt_db.h"
+#include "sl_sleeptimer.h"
 
+void callback(sl_sleeptimer_timer_callback_t *handle, void * data);
+sl_sleeptimer_timer_handle_t handle;
+int x=0;
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
 
@@ -76,6 +80,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
   uint32_t *rh;
   uint32_t *t;
   uint16_t* sent_lent;
+
 
   switch (SL_BT_MSG_ID(evt->header)) {
     // -------------------------------
@@ -148,13 +153,24 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
        switch (evt->data.evt_gatt_server_characteristic_status.characteristic){
          case gattdb_temperature:
            int temperature=getTemperature();
-           app_log_info("temperature_notify:C coucou!\n");
-           //sc=sl_bt_gatt_server_send_user_read_response(evt->data.handle,gattdb_temperature,0,sizeof(temperature),&temperature,&sent_lent);
-           //app_assert_status(sc);
+           app_log_info("notify:Coucou!\n");
+           app_log_info("temperature_notify:%dC\n",temperature);
+
+           if(evt->data.evt_gatt_server_characteristic_status.status_flags && 0x1){//end switch
+             app_log_info("config_flag:%d\n",evt->data.evt_gatt_server_characteristic_status.client_config_flags);
+             if(evt->data.evt_gatt_server_characteristic_status.client_config_flags){
+                 sl_sleeptimer_start_periodic_timer_ms(&handle,1000,callback,NULL,0,0);
+                 app_log_info("timer on\n");}
+             else {
+                 app_log_info("timer off\n");
+                 sl_sleeptimer_stop_timer(&handle);
+             }
+           }
+
            break;
          default:
            break;
-       }//end switch
+       }
        break;
 
 
@@ -165,4 +181,11 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     default:
       break;
   }
+}
+
+void callback(sl_sleeptimer_timer_callback_t *handle, void * data){
+  handle = handle;
+  data = data;
+  x++;
+  app_log_info("timer step %d\n",x);
 }
