@@ -87,4 +87,110 @@
       </properties>
     </characteristic>
   </service>
+
+  <!--Automation IO-->
+  <service advertise="false" id="automation_io_0" name="Automation IO" requirement="mandatory" sourceId="org.bluetooth.service.automation_io" type="primary" uuid="1815">
+    <informativeText>Abstract: The Automation IO service is used to expose the analog inputs/outputs and digital input/outputs of a generic IO module (IOM).</informativeText>
+
+    <!--Digital-->
+    <characteristic const="false" id="digital" name="Digital" sourceId="org.bluetooth.characteristic.digital" uuid="2A56">
+      <informativeText>
+Summary: The Digital characteristic is used to expose and change the state of an IO Module's digital signals.</informativeText>
+      <value length="1" type="user" variable_length="false"/>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+        <write_no_response authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+
+      <!--Characteristic Presentation Format-->
+      <descriptor const="false" discoverable="true" id="characteristic_presentation_format" name="Characteristic Presentation Format" sourceId="org.bluetooth.descriptor.gatt.characteristic_presentation_format" uuid="2904">
+        <informativeText>Abstract: 
+        The Characteristic Presentation Format descriptor defines the format of the Characteristic Value.            
+		
+Summary: 
+        One or more Characteristic Presentation Format descriptors may be present. If multiple of these descriptors are present, then a Aggregate Formate descriptor is present.
+        This descriptor is read only and does not require authentication or authorization to read.
+        This descriptor is composed of five parts: format, exponent, unit, name space and description.
+        The Format field determines how a single value contained in the Characteristic Value is formatted.
+        The Exponent field is used with interger data types to determine how the Characteristic Value is furhter formatted.
+        The actual value = Characteristic Value * 10^Exponent.            
+		
+Examples: 
+            When encoding an IPv4 address, the uint32 Format type is used.
+		 
+            When encoding an IPv6 address, the uint128 Format type is used.
+		 
+            When encoding a Bluetooth address (BD_ADDR), the uint48 Format type is used.
+		 
+            For a Characteristic Value of 23 and an Exponent of 2, the actual value is 2300
+		 
+            For a Characteristi Value of 3892 and an Exponent of -3, the actual value is 3.892
+		</informativeText>
+        <properties>
+          <read authenticated="false" bonded="false" encrypted="false"/>
+        </properties>
+        <value length="7" type="hex" variable_length="false"/>
+      </descriptor>
+
+      <!--Characteristic User Description-->
+      <descriptor const="false" discoverable="true" id="characteristic_user_description" name="Characteristic User Description" sourceId="org.bluetooth.descriptor.gatt.characteristic_user_description" uuid="2901">
+        <informativeText>Abstract: 
+        The Characteristic User Description descriptor provides a textual user description for a characteristic value.
+		
+Summary: 
+        If the Writable Auxiliary bit of the Characteristics Properties is set then this descriptor is written.
+        Only one User Description descriptor exists in a characteristic definition.            
+		</informativeText>
+        <properties>
+          <read authenticated="false" bonded="false" encrypted="false"/>
+        </properties>
+        <value length="1" type="utf-8" variable_length="false"/>
+      </descriptor>
+
+      <!--Characteristic Extended Properties-->
+      <descriptor const="false" discoverable="true" id="characteristic_extended_properties" name="Characteristic Extended Properties" sourceId="org.bluetooth.descriptor.gatt.characteristic_extended_properties" uuid="2900">
+        <informativeText>Abstract: 
+        The Characteristic Extended Properties descriptor defines additional Characteristic Properties.            
+		
+Summary: 
+        If the Characteristic Extended Properties bit of the Characteristic Properties is set, then this descriptor exists.
+        The Characteristic Extended Properties descriptor is a bit field defining Reliable Write and Writeable Auxiliaries are enabled for the Characteristic.
+        This descriptor is readable without authentication and authorization being required.            
+		</informativeText>
+        <properties>
+          <read authenticated="false" bonded="false" encrypted="false"/>
+        </properties>
+        <value length="2" type="hex" variable_length="false"/>
+      </descriptor>
+
+      <!--Value Trigger Setting-->
+      <descriptor const="false" discoverable="true" id="value_trigger_setting" name="Value Trigger Setting" sourceId="org.bluetooth.descriptor.value_trigger_setting" uuid="290A">
+        <informativeText>Abstract: The value of the descriptor has two parts. Part one is a condition field and occupies one octet, and part two is the comparison value (trigger point) that the characteristic value is checked against.</informativeText>
+        <properties>
+          <read authenticated="false" bonded="false" encrypted="false"/>
+          <write authenticated="false" bonded="false" encrypted="false"/>
+        </properties>
+        <value length="8" type="hex" variable_length="false"/>
+      </descriptor>
+
+      <!--Time Trigger Setting-->
+      <descriptor const="false" discoverable="true" id="time_trigger_setting" name="Time Trigger Setting" sourceId="org.bluetooth.descriptor.time_trigger_setting" uuid="290E">
+        <informativeText>Abstract: The value of the descriptor has two parts. Part one is a condition field and occupies one octet, and part two is the comparison value (trigger point) that the characteristic value is checked against.</informativeText>
+        <properties>
+          <read authenticated="false" bonded="false" encrypted="false"/>
+          <write authenticated="false" bonded="false" encrypted="false"/>
+        </properties>
+        <value length="7" type="hex" variable_length="false"/>
+      </descriptor>
+
+      <!--Number of Digitals-->
+      <descriptor const="false" discoverable="true" id="number_of_digitals" name="Number of Digitals" sourceId="org.bluetooth.descriptor.number_of_digitals" uuid="2909">
+        <informativeText>Abstract: The Characteristic Number of Digitals descriptor is used for defining the number of digitals in a characteristic.</informativeText>
+        <properties>
+          <read authenticated="false" bonded="false" encrypted="false"/>
+        </properties>
+        <value length="1" type="hex" variable_length="false"/>
+      </descriptor>
+    </characteristic>
+  </service>
 </gatt>

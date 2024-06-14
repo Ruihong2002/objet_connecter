@@ -37,10 +37,16 @@
 #include "stdint.h"
 #include "gatt_db.h"
 #include "sl_sleeptimer.h"
+#include "sl_simple_led_instances.h"
+
+#define TEMPERATURE_TIMER_SIGNAL (1<<0)
 
 void callback(sl_sleeptimer_timer_callback_t *handle, void * data);
 sl_sleeptimer_timer_handle_t handle;
 int x=0;
+uint8_t connection_temp,connection_digital;
+uint16_t characteristic_temp,characteristic_digital;
+void * led_handle;
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
 
@@ -52,6 +58,7 @@ SL_WEAK void app_init(void)
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application init code here!                         //
   app_log_info("%s\n",__FUNCTION__);
+  sl_simple_led_init_instances();
   // This is called once during start-up.                                    //
   /////////////////////////////////////////////////////////////////////////////
 }
@@ -149,21 +156,28 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       }//end switch
 
       case sl_bt_evt_gatt_server_characteristic_status_id:
-       app_log_info("test_notify\n",__FUNCTION__);
+       //app_log_info("test_notify\n",__FUNCTION__);
        switch (evt->data.evt_gatt_server_characteristic_status.characteristic){
          case gattdb_temperature:
-           int temperature=getTemperature();
+           /*int temperature=getTemperature();
            app_log_info("notify:Coucou!\n");
-           app_log_info("temperature_notify:%dC\n",temperature);
+           app_log_info("temperature_notify:%dC\n",temperature);*/
+           connection_temp=evt->data.evt_gatt_server_characteristic_status.connection;
+           characteristic_temp=evt->data.evt_gatt_server_characteristic_status.characteristic;
 
            if(evt->data.evt_gatt_server_characteristic_status.status_flags && 0x1){//end switch
              app_log_info("config_flag:%d\n",evt->data.evt_gatt_server_characteristic_status.client_config_flags);
              if(evt->data.evt_gatt_server_characteristic_status.client_config_flags){
                  sl_sleeptimer_start_periodic_timer_ms(&handle,1000,callback,NULL,0,0);
-                 app_log_info("timer on\n");}
+                 app_log_info("timer on\n");
+                 sl_led_led0.turn_on(sl_led_led0.context); //led actif
+             }
              else {
                  app_log_info("timer off\n");
                  sl_sleeptimer_stop_timer(&handle);
+
+
+                 sl_led_led0.turn_off(sl_led_led0.context);//led inactif
              }
            }
 
@@ -172,6 +186,33 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
            break;
        }
        break;
+
+       case (sl_bt_evt_system_external_signal_id):
+           switch (evt->data.evt_system_external_signal.extsignals){
+             case(TEMPERATURE_TIMER_SIGNAL):
+                 app_log_info("external_signal\n");
+                 app_log_info("temp=%d\n",getTemperature());
+                 int temp=getTemperature();
+                 sl_bt_gatt_server_send_notification(connection_temp,characteristic_temp,sizeof(temp),(const uint8_t*)&temp);
+                 break;
+             default:
+                 break;
+           }
+       case (sl_bt_evt_gatt_server_user_write_request_id):
+              switch(evt->data.evt_gatt_server_user_write_request.characteristic){
+                case (gattdb_digital):
+                     if (evt->data.evt_gatt_server_user_write_request.att_opcode==sl_bt_gatt_write_command){
+                          app_log_info("digital sans\n");
+                          sl_led_led0.toggle(sl_led_led0.context);} //led actif
+                    else if (evt->data.evt_gatt_server_user_write_request.att_opcode==sl_bt_gatt_write_request){
+                    app_log_info("digital\n");
+                     sl_led_led0.toggle(sl_led_led0.context); //led actif
+                     sl_bt_gatt_server_send_user_write_response(connection_digital,characteristic_digital,0);
+                     app_log_info("response write\n");}
+                default:
+                    break;
+              }
+
 
 
 
@@ -186,6 +227,5 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 void callback(sl_sleeptimer_timer_callback_t *handle, void * data){
   handle = handle;
   data = data;
-  x++;
-  app_log_info("timer step %d\n",x);
+  sl_bt_external_signal(TEMPERATURE_TIMER_SIGNAL);
 }
