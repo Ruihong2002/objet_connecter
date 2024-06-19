@@ -168,6 +168,11 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
            if(evt->data.evt_gatt_server_characteristic_status.status_flags && 0x1){//end switch
              app_log_info("config_flag:%d\n",evt->data.evt_gatt_server_characteristic_status.client_config_flags);
              if(evt->data.evt_gatt_server_characteristic_status.client_config_flags){
+                 /*int temperature=getTemperature();
+                 app_log_info("temperature:%dC\n",temperature);
+                 sc=sl_bt_gatt_server_send_user_read_response(evt->data.handle,gattdb_temperature,0,sizeof(temperature),&temperature,&sent_lent);
+                 app_assert_status(sc);*/
+
                  sl_sleeptimer_start_periodic_timer_ms(&handle,1000,callback,NULL,0,0);
                  app_log_info("timer on\n");
                  sl_led_led0.turn_on(sl_led_led0.context); //led actif
@@ -201,10 +206,10 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
        case (sl_bt_evt_gatt_server_user_write_request_id):
               switch(evt->data.evt_gatt_server_user_write_request.characteristic){
                 case (gattdb_digital):
-                     if (evt->data.evt_gatt_server_user_write_request.att_opcode==sl_bt_gatt_write_command){
+                     if (evt->data.evt_gatt_server_user_write_request.att_opcode && sl_bt_gatt_write_command){
                           app_log_info("digital sans\n");
                           sl_led_led0.toggle(sl_led_led0.context);} //led actif
-                    else if (evt->data.evt_gatt_server_user_write_request.att_opcode==sl_bt_gatt_write_request){
+                    else if (evt->data.evt_gatt_server_user_write_request.att_opcode && sl_bt_gatt_write_request){
                     app_log_info("digital\n");
                      sl_led_led0.toggle(sl_led_led0.context); //led actif
                      sl_bt_gatt_server_send_user_write_response(connection_digital,characteristic_digital,0);
@@ -212,10 +217,6 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
                 default:
                     break;
               }
-
-
-
-
 
     // -------------------------------
     // Default event handler.

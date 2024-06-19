@@ -30,8 +30,11 @@ extern const sli_bt_gattdb_t gattdb;
 #define gattdb_value_trigger_setting          35
 #define gattdb_time_trigger_setting           36
 #define gattdb_number_of_digitals             37
-#define gattdb_ota                            38
-#define gattdb_ota_control                    40
+#define gattdb_environment_sensing            38
+#define gattdb_es_temperature                 40
+#define gattdb_es_humidity                    42
+#define gattdb_ota                            43
+#define gattdb_ota_control                    45
 
 
 #endif // __GATT_DB_H

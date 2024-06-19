@@ -3,6 +3,7 @@
   <folder name="config">
     <folder name="btconf">
       <file name="in_place_ota_dfu.xml" generated="true" linked="false"/>
+      <file name="gatt_service_rht.xml" generated="true" linked="false"/>
       <file name="gatt_configuration.btconf" generated="true" linked="false"/>
     </folder>
     <file name="sl_memory_config.h" generated="true" linked="false"/>
@@ -19,6 +20,7 @@
     <file name="sl_sleeptimer_config.h" generated="true" linked="false"/>
     <file name="sl_power_manager_config.h" generated="true" linked="false"/>
     <file name="sl_bt_in_place_ota_dfu_config.h" generated="true" linked="false"/>
+    <file name="sl_gatt_service_rht_config.h" generated="true" linked="false"/>
     <file name="sl_device_init_lfxo_config.h" generated="true" linked="false"/>
     <file name="sl_simple_led_led0_config.h" generated="true" linked="false"/>
     <file name="dmadrv_config.h" generated="true" linked="false"/>

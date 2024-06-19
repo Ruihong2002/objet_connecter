@@ -474,6 +474,10 @@
           <folder name="gatt_service_device_information">
             <file name="sl_gatt_service_device_information.h" uri="studio:/sdk/app/bluetooth/common/gatt_service_device_information/sl_gatt_service_device_information.h"/>
           </folder>
+          <folder name="gatt_service_rht">
+            <file name="sl_gatt_service_rht.c" uri="studio:/sdk/app/bluetooth/common/gatt_service_rht/sl_gatt_service_rht.c"/>
+            <file name="sl_gatt_service_rht.h" uri="studio:/sdk/app/bluetooth/common/gatt_service_rht/sl_gatt_service_rht.h"/>
+          </folder>
           <folder name="in_place_ota_dfu">
             <file name="sl_bt_in_place_ota_dfu.c" uri="studio:/sdk/app/bluetooth/common/in_place_ota_dfu/sl_bt_in_place_ota_dfu.c"/>
             <file name="sl_bt_in_place_ota_dfu.h" uri="studio:/sdk/app/bluetooth/common/in_place_ota_dfu/sl_bt_in_place_ota_dfu.h"/>
@@ -807,6 +811,7 @@
   <includePath uri="studio:/sdk/platform/emdrv/common/inc"/>
   <includePath uri="studio:/sdk/platform/emlib/inc"/>
   <includePath uri="studio:/sdk/app/bluetooth/common/gatt_service_device_information"/>
+  <includePath uri="studio:/sdk/app/bluetooth/common/gatt_service_rht"/>
   <includePath uri="studio:/sdk/platform/driver/i2cspm/inc"/>
   <includePath uri="studio:/sdk/app/bluetooth/common/in_place_ota_dfu"/>
   <includePath uri="studio:/sdk/platform/service/iostream/inc"/>

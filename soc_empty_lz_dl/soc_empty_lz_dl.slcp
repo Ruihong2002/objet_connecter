@@ -43,6 +43,7 @@ component:
 - {id: component_catalog}
 - {id: gatt_configuration}
 - {id: gatt_service_device_information}
+- {id: gatt_service_rht}
 - {id: in_place_ota_dfu}
 - instance: [vcom]
   id: iostream_usart
